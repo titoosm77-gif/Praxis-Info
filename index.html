@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OC | Praxis-Intranet — OrthoChirurgie</title>
+<meta name="description" content="Internes Praxis-Wiki der OC OrthoChirurgie Ludwigshafen / Mutterstadt" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+<style>
+/* ============================================================
+   OC ORTHOCHIRURGIE — INTRANET DESIGN SYSTEM
+   ============================================================ */
+:root {
+  /* Markenfarben — Petrol/Teal-Achse der Praxis */
+  --oc-primary:        #1f6b7a;    /* Hauptfarbe — gedecktes Petrol */
+  --oc-primary-dark:   #144a55;    /* Hover/aktiv */
+  --oc-primary-light:  #2d8a9c;    /* Akzent hell */
+  --oc-primary-50:     #e8f1f3;    /* Hintergrund hauchig */
+  --oc-primary-100:    #cfe2e6;
+  --oc-secondary:      #c79a4b;    /* warmer Akzent (medizinisch-edel) */
+  --oc-secondary-dark: #a87f35;
+
+  /* Neutrals */
+  --bg:           #f7f9fa;
+  --surface:      #ffffff;
+  --surface-2:    #fbfcfd;
+  --border:       #e4e9ec;
+  --border-strong:#cdd6db;
+  --text:         #142028;
+  --text-muted:   #5a6a72;
+  --text-subtle:  #8a969d;
+
+  /* Status */
+  --success: #2e7d57;
+  --warning: #b8860b;
+  --danger:  #b23a3a;
+  --info:    var(--oc-primary-light);
+
+  /* Layout */
+  --radius-sm: 6px;
+  --radius:    10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgba(20,32,40,.04), 0 1px 3px rgba(20,32,40,.06);
+  --shadow:    0 4px 12px rgba(20,32,40,.06), 0 2px 4px rgba(20,32,40,.04);
+  --shadow-lg: 0 12px 32px rgba(20,32,40,.10), 0 4px 8px rgba(20,32,40,.05);
+
+  /* Typo */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Fraunces', 'Inter', serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; color: var(--text); letter-spacing: -0.01em; margin: 0; }
+h1 { font-size: 2.1rem; line-height: 1.15; }
+h2 { font-size: 1.55rem; line-height: 1.2; }
+h3 { font-size: 1.15rem; line-height: 1.3; }
+p { margin: 0 0 0.75em; }
+a { color: var(--oc-primary); text-decoration: none; }
+a:hover { color: var(--oc-primary-dark); text-decoration: underline; }
+
+/* ===== LAYOUT ===== */
+.app {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  background: linear-gradient(180deg, #ffffff 0%, #f4f7f8 100%);
+  border-right: 1px solid var(--border);
+  padding: 22px 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+@media (max-width: 900px) {
+  .sidebar { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 8px 22px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+.brand-mark {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--oc-primary) 0%, var(--oc-primary-light) 100%);
+  color: #fff;
+  display: grid; place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  box-shadow: 0 4px 10px rgba(31,107,122,.25);
+}
+.brand-text {
+  display: flex; flex-direction: column; line-height: 1.15;
+}
+.brand-text strong { font-family: var(--font-display); font-size: 1rem; color: var(--text); font-weight: 700; }
+.brand-text span { font-size: 11px; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+.nav-section { margin-bottom: 6px; }
+.nav-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-subtle);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 14px 12px 6px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+}
+.nav-item:hover {
+  background: var(--oc-primary-50);
+  color: var(--oc-primary-dark);
+}
+.nav-item.active {
+  background: var(--oc-primary);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(31,107,122,.25);
+}
+.nav-item.active .nav-icon { color: #fff; }
+.nav-icon {
+  width: 18px; height: 18px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.nav-item:hover .nav-icon { color: var(--oc-primary); }
+
+.sidebar-footer {
+  margin-top: 24px;
+  padding: 14px 12px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.lock-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  background: #fff4e0;
+  color: #8a5a00;
+  border: 1px solid #f3d99b;
+}
+.lock-status.unlocked {
+  background: #e6f3ec;
+  color: var(--success);
+  border-color: #b8dcc6;
+}
+
+/* ===== MAIN ===== */
+.main {
+  padding: 36px 44px 80px;
+  max-width: 1280px;
+}
+@media (max-width: 700px) {
+  .main { padding: 24px 18px 60px; }
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.search {
+  position: relative;
+  flex: 1;
+  max-width: 420px;
+}
+.search input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 14px;
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.search input:focus {
+  outline: none;
+  border-color: var(--oc-primary);
+  box-shadow: 0 0 0 3px var(--oc-primary-50);
+}
+.search-icon {
+  position: absolute;
+  left: 12px; top: 50%;
+  transform: translateY(-50%);
+  width: 16px; height: 16px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  border: 1px solid transparent;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--oc-primary);
+  color: #fff;
+  border-color: var(--oc-primary);
+}
+.btn-primary:hover {
+  background: var(--oc-primary-dark);
+  border-color: var(--oc-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(31,107,122,.25);
+  text-decoration: none; color: #fff;
+}
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+.btn-secondary:hover {
+  background: var(--surface-2);
+  border-color: var(--oc-primary);
+  color: var(--oc-primary);
+  text-decoration: none;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: transparent;
+  padding: 6px 10px;
+}
+.btn-ghost:hover { color: var(--oc-primary); background: var(--oc-primary-50); text-decoration: none; }
+.btn-danger {
+  background: var(--surface);
+  color: var(--danger);
+  border-color: #e8c4c4;
+}
+.btn-danger:hover { background: #fbeeee; border-color: var(--danger); text-decoration: none; color: var(--danger); }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+.btn[disabled] { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+
+/* ===== HEADER BLOCK ===== */
+.page-header {
+  margin-bottom: 28px;
+}
+.page-header h1 {
+  margin-bottom: 6px;
+}
+.page-header .subtitle {
+  color: var(--text-muted);
+  font-size: 15px;
+}
+.page-header .breadcrumb {
+  font-size: 12.5px;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* ===== DASHBOARD ===== */
+.dashboard-hero {
+  background:
+    radial-gradient(circle at 90% 10%, rgba(199,154,75,.12) 0%, transparent 40%),
+    linear-gradient(135deg, var(--oc-primary) 0%, var(--oc-primary-dark) 100%);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 32px 36px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.dashboard-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(255,255,255,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.dashboard-hero .eyebrow {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  opacity: 0.85;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.dashboard-hero h1 {
+  color: #fff;
+  font-size: 2.4rem;
+  margin-bottom: 8px;
+}
+.dashboard-hero p {
+  color: rgba(255,255,255,0.85);
+  font-size: 15px;
+  max-width: 640px;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 36px;
+}
+.quick-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 18px 16px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.quick-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  transition: border-color 0.16s;
+  pointer-events: none;
+}
+.quick-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: var(--oc-primary-100);
+}
+.quick-card:hover::after { border-color: var(--oc-primary); }
+.quick-card .qc-icon {
+  width: 38px; height: 38px;
+  border-radius: 9px;
+  background: var(--oc-primary-50);
+  color: var(--oc-primary);
+  display: grid; place-items: center;
+}
+.quick-card .qc-title {
+  font-weight: 600;
+  font-size: 15px;
+}
+.quick-card .qc-meta {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.dashboard-cols {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+@media (max-width: 900px) { .dashboard-cols { grid-template-columns: 1fr; } }
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+}
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.panel-header h3 { font-size: 1.05rem; }
+.panel-header .badge {
+  font-size: 11px;
+  background: var(--oc-primary-50);
+  color: var(--oc-primary-dark);
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.news-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.news-item:last-child { border-bottom: none; }
+.news-item .news-meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+.news-pill {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.news-pill.urgent { background: #fbeeee; color: var(--danger); }
+.news-pill.info   { background: var(--oc-primary-50); color: var(--oc-primary-dark); }
+.news-pill.note   { background: #fff4e0; color: #8a5a00; }
+.news-item .news-title { font-weight: 600; font-size: 14.5px; margin-bottom: 3px; }
+.news-item .news-body { font-size: 13.5px; color: var(--text-muted); }
+
+/* ===== CATEGORY / LIST VIEW ===== */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.cat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cat-card:hover {
+  border-color: var(--oc-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.cat-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+.cat-card .cat-meta {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+.cat-card .cat-count {
+  position: absolute;
+  top: 18px; right: 20px;
+  background: var(--oc-primary-50);
+  color: var(--oc-primary-dark);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 999px;
+}
+
+/* ===== DETAIL / ITEM VIEW ===== */
+.item-list { display: flex; flex-direction: column; gap: 10px; }
+.item-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  transition: all 0.14s ease;
+  cursor: pointer;
+}
+.item-row:hover {
+  border-color: var(--oc-primary-100);
+  box-shadow: var(--shadow-sm);
+}
+.item-row .item-title { font-weight: 600; font-size: 14.5px; margin-bottom: 4px; }
+.item-row .item-meta { font-size: 12.5px; color: var(--text-muted); display: flex; gap: 12px; flex-wrap: wrap; }
+.item-row .item-actions { display: flex; gap: 4px; flex-shrink: 0; opacity: 0; transition: opacity 0.14s; }
+.item-row:hover .item-actions { opacity: 1; }
+.item-row .item-content { flex: 1; }
+
+.detail-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+}
+.detail-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px 28px;
+  padding: 16px 20px;
+  background: var(--surface-2);
+  border-radius: var(--radius-sm);
+  margin-bottom: 24px;
+}
+.detail-meta-grid .label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+.detail-meta-grid .value {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.content-body {
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+.content-body h4 {
+  font-size: 1rem;
+  margin: 24px 0 8px;
+  color: var(--oc-primary-dark);
+}
+.content-body ol, .content-body ul { padding-left: 22px; }
+.content-body li { margin-bottom: 4px; }
+
+.attachment-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.attachment {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.14s;
+}
+.attachment:hover {
+  background: var(--oc-primary-50);
+  border-color: var(--oc-primary-100);
+  color: var(--oc-primary-dark);
+  text-decoration: none;
+}
+.attachment-icon {
+  width: 28px; height: 28px;
+  background: var(--surface);
+  border-radius: 6px;
+  display: grid; place-items: center;
+  color: var(--oc-primary);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.attachment-info { display: flex; flex-direction: column; min-width: 0; }
+.attachment-name { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.attachment-type { font-size: 11px; color: var(--text-subtle); }
+
+/* ===== FAQ ===== */
+.faq-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.faq-question {
+  padding: 16px 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  font-size: 14.5px;
+  transition: background 0.14s;
+}
+.faq-question:hover { background: var(--surface-2); }
+.faq-toggle {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--oc-primary-50);
+  color: var(--oc-primary);
+  display: grid; place-items: center;
+  flex-shrink: 0;
+  transition: transform 0.18s;
+}
+.faq-item.open .faq-toggle { transform: rotate(45deg); }
+.faq-answer {
+  padding: 0 20px 18px;
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  border-top: 1px solid var(--border);
+  margin-top: 0;
+  display: none;
+}
+.faq-item.open .faq-answer { display: block; padding-top: 14px; }
+
+/* ===== CONTACT CARD ===== */
+.contact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  position: relative;
+}
+.contact-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+.contact-card .contact-sub {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+.contact-card .contact-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13.5px;
+}
+.contact-card .contact-fields .row {
+  display: flex; gap: 8px;
+  align-items: baseline;
+}
+.contact-card .contact-fields .row .lbl {
+  color: var(--text-subtle);
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  min-width: 80px;
+}
+.contact-card .contact-fields .row .val { color: var(--text); flex: 1; }
+
+/* ===== MODAL ===== */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(20,32,40,0.55);
+  backdrop-filter: blur(3px);
+  display: grid;
+  place-items: center;
+  z-index: 200;
+  padding: 20px;
+  animation: fadeIn 0.18s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: pop 0.22s cubic-bezier(.2,.8,.3,1.1);
+}
+.modal.modal-sm { max-width: 420px; }
+.modal.modal-lg { max-width: 880px; }
+@keyframes pop { from { transform: translateY(8px) scale(0.98); opacity: 0; } to { transform: none; opacity: 1; } }
+.modal-header {
+  padding: 20px 24px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-header h2 { font-size: 1.2rem; }
+.modal-body { padding: 22px 24px; }
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background: var(--surface-2);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+.modal-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 6px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+}
+.modal-close:hover { background: var(--surface-2); color: var(--text); }
+
+/* ===== FORM ===== */
+.form-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.form-row.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 600px) { .form-row.grid-2 { grid-template-columns: 1fr; } }
+.form-row label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+.form-row input,
+.form-row select,
+.form-row textarea {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color 0.14s, box-shadow 0.14s;
+  width: 100%;
+}
+.form-row textarea { min-height: 110px; resize: vertical; font-family: inherit; line-height: 1.55; }
+.form-row input:focus,
+.form-row select:focus,
+.form-row textarea:focus {
+  outline: none;
+  border-color: var(--oc-primary);
+  box-shadow: 0 0 0 3px var(--oc-primary-50);
+}
+.form-hint { font-size: 12px; color: var(--text-subtle); }
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+.empty-state .empty-icon {
+  width: 56px; height: 56px;
+  margin: 0 auto 14px;
+  background: var(--oc-primary-50);
+  color: var(--oc-primary);
+  border-radius: 50%;
+  display: grid; place-items: center;
+}
+.empty-state h3 { font-size: 1.1rem; margin-bottom: 6px; color: var(--text); }
+.empty-state p { font-size: 14px; }
+
+/* ===== UTIL ===== */
+.flex { display: flex; }
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+.gap-2 { gap: 8px; } .gap-3 { gap: 12px; }
+.mb-4 { margin-bottom: 24px; }
+.hidden { display: none !important; }
+
+[x-cloak] { display: none !important; }
+
+.tag {
+  display: inline-block;
+  padding: 2px 9px;
+  font-size: 11.5px;
+  background: var(--oc-primary-50);
+  color: var(--oc-primary-dark);
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 22px 0;
+}
+
+/* Print */
+@media print {
+  .sidebar, .topbar, .item-actions, .btn { display: none !important; }
+  .main { padding: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="app" x-data="ocWiki()" x-cloak>
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar">
+    <div class="brand" @click="navigate('dashboard')" style="cursor:pointer">
+      <div class="brand-mark">OC</div>
+      <div class="brand-text">
+        <strong>OrthoChirurgie</strong>
+        <span>Praxis-Intranet</span>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Übersicht</div>
+      <button class="nav-item" :class="{active: view==='dashboard'}" @click="navigate('dashboard')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+        Dashboard
+      </button>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Wissensbasis</div>
+      <template x-for="sec in sections" :key="sec.key">
+        <button class="nav-item" :class="{active: view===sec.key}" @click="navigate(sec.key)">
+          <span class="nav-icon" x-html="sec.icon"></span>
+          <span x-text="sec.title"></span>
+        </button>
+      </template>
+    </div>
+
+    <div class="sidebar-footer">
+      <span class="lock-status" :class="{unlocked: isAuth}">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <template x-if="isAuth"><path d="M7 11V7a5 5 0 0 1 9.9-1"/></template>
+          <template x-if="!isAuth"><path d="M7 11V7a5 5 0 0 1 10 0v4"/></template>
+          <rect x="3" y="11" width="18" height="11" rx="2"/>
+        </svg>
+        <span x-text="isAuth ? 'Bearbeitungs-Modus' : 'Leseansicht'"></span>
+      </span>
+      <div style="margin-top: 10px;">
+        <button class="btn btn-ghost btn-sm" @click="isAuth ? lock() : (showAuthModal = true)" style="padding-left:0">
+          <span x-text="isAuth ? 'Modus sperren' : 'Bearbeiten freischalten'"></span>
+        </button>
+      </div>
+      <div style="margin-top: 12px; font-size: 11px; opacity: 0.7;">
+        v1.0 · Letzte Änderung:<br/>
+        <span x-text="lastChanged"></span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="search">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="text" placeholder="Wiki durchsuchen…" x-model="searchQuery" @input="onSearch()" />
+      </div>
+      <div class="flex gap-2">
+        <button class="btn btn-secondary" @click="exportData()" title="Backup als JSON herunterladen">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Backup
+        </button>
+        <button class="btn btn-secondary" @click="$refs.importInput.click()" title="JSON-Backup einspielen">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Import
+        </button>
+        <input type="file" accept=".json" x-ref="importInput" @change="importData($event)" style="display:none" />
+      </div>
+    </div>
+
+    <!-- Search Results -->
+    <template x-if="searchQuery.trim().length > 1">
+      <div>
+        <div class="page-header">
+          <div class="breadcrumb">Suchergebnisse</div>
+          <h1 x-text="`„${searchQuery}“`"></h1>
+          <div class="subtitle" x-text="`${searchResults.length} Treffer im Wiki`"></div>
+        </div>
+        <template x-if="searchResults.length === 0">
+          <div class="empty-state">
+            <div class="empty-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div>
+            <h3>Keine Treffer</h3>
+            <p>Versuche einen anderen Suchbegriff oder kontaktiere die QM-Verantwortliche.</p>
+          </div>
+        </template>
+        <div class="item-list">
+          <template x-for="r in searchResults" :key="r.section+'-'+r.id">
+            <div class="item-row" @click="navigate(r.section); selectItem(r.section, r.id); searchQuery=''">
+              <div class="item-content">
+                <div class="item-title" x-text="r.title"></div>
+                <div class="item-meta">
+                  <span class="tag" x-text="sectionTitle(r.section)"></span>
+                  <span x-text="r.preview"></span>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </template>
+
+    <!-- DASHBOARD VIEW -->
+    <template x-if="view==='dashboard' && !searchQuery.trim()">
+      <div>
+        <div class="dashboard-hero">
+          <div class="eyebrow">Willkommen im Praxis-Wiki</div>
+          <h1>OC OrthoChirurgie</h1>
+          <p>Zentrale Wissensbasis für SOPs, Qualitätsmanagement, Kontakte, Tutorials und FAQs. Aktualisiert vom Team, jederzeit verfügbar.</p>
+        </div>
+
+        <h3 style="margin-bottom: 14px;">Schnellzugriffe</h3>
+        <div class="quick-grid">
+          <template x-for="sec in sections" :key="sec.key">
+            <div class="quick-card" @click="navigate(sec.key)">
+              <div class="qc-icon" x-html="sec.icon"></div>
+              <div>
+                <div class="qc-title" x-text="sec.title"></div>
+                <div class="qc-meta" x-text="`${(data[sec.key]||[]).length} Einträge`"></div>
+              </div>
+            </div>
+          </template>
+        </div>
+
+        <div class="dashboard-cols">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Praxis-News & Hinweise</h3>
+              <div class="flex gap-2">
+                <span class="badge" x-text="`${news.length} aktiv`"></span>
+                <button class="btn btn-sm btn-ghost" @click="openNewsEditor()" x-show="isAuth">+ Neu</button>
+              </div>
+            </div>
+            <template x-if="news.length === 0">
+              <div style="padding: 14px 0; color: var(--text-muted); font-size: 14px;">Aktuell keine Hinweise. Im Bearbeitungsmodus kannst du eine neue Meldung anlegen.</div>
+            </template>
+            <template x-for="n in news" :key="n.id">
+              <div class="news-item">
+                <div class="news-meta">
+                  <span class="news-pill" :class="n.type" x-text="newsTypeLabel(n.type)"></span>
+                  <span x-text="n.date"></span>
+                  <template x-if="isAuth">
+                    <span style="margin-left:auto" class="flex gap-2">
+                      <button class="btn btn-ghost btn-sm" @click="openNewsEditor(n)">Bearbeiten</button>
+                      <button class="btn btn-ghost btn-sm" @click="deleteNews(n.id)" style="color:var(--danger)">Löschen</button>
+                    </span>
+                  </template>
+                </div>
+                <div class="news-title" x-text="n.title"></div>
+                <div class="news-body" x-text="n.body"></div>
+              </div>
+            </template>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Notfall & Kontakte</h3>
+              <button class="btn btn-sm btn-ghost" @click="navigate('contacts')">Alle ansehen →</button>
+            </div>
+            <div style="display:flex; flex-direction: column; gap: 10px;">
+              <div class="news-item" style="padding-top: 4px;">
+                <div class="news-meta"><span class="news-pill urgent">Notfall</span></div>
+                <div class="news-title">Ärztlicher Bereitschaftsdienst</div>
+                <div class="news-body">Bundesweit · <strong>116 117</strong></div>
+              </div>
+              <div class="news-item">
+                <div class="news-meta"><span class="news-pill info">Standort LU</span></div>
+                <div class="news-title">Ludwigshafen</div>
+                <div class="news-body">Berthold-Schwarz-Str. 26 · 0621 53399050</div>
+              </div>
+              <div class="news-item">
+                <div class="news-meta"><span class="news-pill info">Standort MU</span></div>
+                <div class="news-title">Mutterstadt</div>
+                <div class="news-body">Oggersheimerstr. 42 · 06234 9288500</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- SECTION VIEWS (SOPs, QM, Tutorials, Downloads, FAQ, Contacts) -->
+    <template x-if="view!=='dashboard' && !selectedItemId && !searchQuery.trim()">
+      <div>
+        <div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap: 16px;">
+          <div>
+            <div class="breadcrumb" x-text="currentSection.label || 'Bereich'"></div>
+            <h1 x-text="currentSection.title"></h1>
+            <div class="subtitle" x-text="currentSection.subtitle"></div>
+          </div>
+          <button class="btn btn-primary" x-show="isAuth" @click="openItemEditor()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            Neuer Eintrag
+          </button>
+          <button class="btn btn-secondary" x-show="!isAuth" @click="showAuthModal = true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 11V7a5 5 0 0 1 10 0v4"/><rect x="3" y="11" width="18" height="11" rx="2"/></svg>
+            Bearbeiten freischalten
+          </button>
+        </div>
+
+        <!-- FAQ Layout -->
+        <template x-if="view==='faq'">
+          <div>
+            <template x-if="(data.faq||[]).length===0">
+              <div class="empty-state">
+                <div class="empty-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg></div>
+                <h3>Noch keine FAQs</h3>
+                <p>Im Bearbeitungsmodus kannst du häufige Fragen samt Antwort anlegen.</p>
+              </div>
+            </template>
+            <template x-for="(f, idx) in data.faq" :key="f.id">
+              <div class="faq-item" :class="{open: openFaq===f.id}">
+                <div class="faq-question" @click="openFaq = (openFaq===f.id ? null : f.id)">
+                  <span x-text="f.question"></span>
+                  <span class="flex gap-2">
+                    <template x-if="isAuth">
+                      <span class="flex gap-2" @click.stop>
+                        <button class="btn btn-ghost btn-sm" @click="openItemEditor(f)">✎</button>
+                        <button class="btn btn-ghost btn-sm" @click="deleteItem('faq', f.id)" style="color:var(--danger)">×</button>
+                      </span>
+                    </template>
+                    <span class="faq-toggle">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
+                    </span>
+                  </span>
+                </div>
+                <div class="faq-answer" x-html="renderText(f.answer)"></div>
+              </div>
+            </template>
+          </div>
+        </template>
+
+        <!-- Contacts grid -->
+        <template x-if="view==='contacts'">
+          <div>
+            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap:14px;">
+              <template x-for="c in data.contacts" :key="c.id">
+                <div class="contact-card">
+                  <h3 x-text="c.title"></h3>
+                  <div class="contact-sub" x-text="c.category || 'Kontakt'"></div>
+                  <div class="contact-fields">
+                    <template x-if="c.contactPerson"><div class="row"><span class="lbl">Ansprechp.</span><span class="val" x-text="c.contactPerson"></span></div></template>
+                    <template x-if="c.phone"><div class="row"><span class="lbl">Telefon</span><span class="val" x-text="c.phone"></span></div></template>
+                    <template x-if="c.mobile"><div class="row"><span class="lbl">Mobil</span><span class="val" x-text="c.mobile"></span></div></template>
+                    <template x-if="c.email"><div class="row"><span class="lbl">E-Mail</span><span class="val"><a :href="'mailto:'+c.email" x-text="c.email"></a></span></div></template>
+                    <template x-if="c.hours"><div class="row"><span class="lbl">Zeiten</span><span class="val" x-text="c.hours"></span></div></template>
+                    <template x-if="c.contract"><div class="row"><span class="lbl">Vertrag</span><span class="val" x-text="c.contract"></span></div></template>
+                    <template x-if="c.notes"><div class="row"><span class="lbl">Notizen</span><span class="val" x-text="c.notes"></span></div></template>
+                  </div>
+                  <template x-if="isAuth">
+                    <div style="display:flex; gap:6px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);">
+                      <button class="btn btn-secondary btn-sm" @click="openItemEditor(c)">Bearbeiten</button>
+                      <button class="btn btn-danger btn-sm" @click="deleteItem('contacts', c.id)">Löschen</button>
+                    </div>
+                  </template>
+                </div>
+              </template>
+            </div>
+            <template x-if="(data.contacts||[]).length===0">
+              <div class="empty-state">
+                <div class="empty-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                <h3>Noch keine Kontakte hinterlegt</h3>
+                <p>Lege Sanitätshäuser, Implantatfirmen, IT-Support, Labore und Notfallkontakte an.</p>
+              </div>
+            </template>
+          </div>
+        </template>
+
+        <!-- Default category grid (SOPs, QM, Tutorials, Downloads) -->
+        <template x-if="view==='sops' || view==='qm' || view==='tutorials' || view==='downloads'">
+          <div>
+            <!-- group by category if present, else flat list -->
+            <template x-if="categoryGroups.length > 0">
+              <div>
+                <template x-for="grp in categoryGroups" :key="grp.name">
+                  <div style="margin-bottom: 28px;">
+                    <h3 style="margin-bottom: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); display:flex; justify-content:space-between; align-items:baseline;">
+                      <span x-text="grp.name"></span>
+                      <span style="font-size: 12px; color: var(--text-subtle); font-family: var(--font-sans); font-weight: 500;" x-text="`${grp.items.length} Einträge`"></span>
+                    </h3>
+                    <div class="cat-grid">
+                      <template x-for="it in grp.items" :key="it.id">
+                        <div class="cat-card" @click="selectItem(view, it.id)">
+                          <h3 x-text="it.title"></h3>
+                          <div class="cat-meta" x-text="it.subtitle || it.responsible || it.purpose || ''"></div>
+                          <div style="display:flex; gap: 8px; flex-wrap: wrap; font-size: 11.5px; color: var(--text-subtle); margin-top: 6px;">
+                            <template x-if="it.version"><span>v<span x-text="it.version"></span></span></template>
+                            <template x-if="it.updated"><span>· <span x-text="it.updated"></span></span></template>
+                            <template x-if="(it.attachments||[]).length"><span>· <span x-text="`${it.attachments.length} Anhänge`"></span></span></template>
+                          </div>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </template>
+            <template x-if="categoryGroups.length === 0">
+              <div class="empty-state">
+                <div class="empty-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                <h3>Noch keine Einträge</h3>
+                <p>Lege im Bearbeitungsmodus den ersten Eintrag in diesem Bereich an.</p>
+              </div>
+            </template>
+          </div>
+        </template>
+      </div>
+    </template>
+
+    <!-- DETAIL VIEW -->
+    <template x-if="selectedItemId && currentItem && !searchQuery.trim()">
+      <div>
+        <div class="page-header" style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap: 16px;">
+          <div>
+            <div class="breadcrumb">
+              <a href="#" @click.prevent="selectedItemId=null" x-text="currentSection.title"></a>
+              <template x-if="currentItem.category"><span> · <span x-text="currentItem.category"></span></span></template>
+            </div>
+            <h1 x-text="currentItem.title"></h1>
+            <template x-if="currentItem.subtitle"><div class="subtitle" x-text="currentItem.subtitle"></div></template>
+          </div>
+          <div class="flex gap-2">
+            <button class="btn btn-secondary" @click="selectedItemId=null">← Zurück</button>
+            <template x-if="isAuth">
+              <button class="btn btn-secondary" @click="openItemEditor(currentItem)">Bearbeiten</button>
+            </template>
+            <template x-if="isAuth">
+              <button class="btn btn-danger" @click="deleteItem(view, currentItem.id)">Löschen</button>
+            </template>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <template x-if="hasMeta(currentItem)">
+            <div class="detail-meta-grid">
+              <template x-if="currentItem.purpose"><div><div class="label">Ziel</div><div class="value" x-text="currentItem.purpose"></div></div></template>
+              <template x-if="currentItem.responsible"><div><div class="label">Verantwortlich</div><div class="value" x-text="currentItem.responsible"></div></div></template>
+              <template x-if="currentItem.version"><div><div class="label">Version</div><div class="value" x-text="currentItem.version"></div></div></template>
+              <template x-if="currentItem.updated"><div><div class="label">Stand</div><div class="value" x-text="currentItem.updated"></div></div></template>
+              <template x-if="currentItem.category"><div><div class="label">Kategorie</div><div class="value" x-text="currentItem.category"></div></div></template>
+            </div>
+          </template>
+
+          <template x-if="currentItem.content">
+            <div class="content-body" x-html="renderText(currentItem.content)"></div>
+          </template>
+
+          <template x-if="(currentItem.steps||[]).length">
+            <div>
+              <h4>Schritt-für-Schritt-Ablauf</h4>
+              <ol class="content-body">
+                <template x-for="step in currentItem.steps"><li x-text="step"></li></template>
+              </ol>
+            </div>
+          </template>
+
+          <template x-if="(currentItem.attachments||[]).length">
+            <div>
+              <h4>Dokumente & Anhänge</h4>
+              <div class="attachment-list">
+                <template x-for="att in currentItem.attachments" :key="att.url+att.name">
+                  <a class="attachment" :href="att.url" target="_blank" rel="noopener">
+                    <span class="attachment-icon" x-html="fileIcon(att.type)"></span>
+                    <span class="attachment-info">
+                      <span class="attachment-name" x-text="att.name"></span>
+                      <span class="attachment-type" x-text="(att.type||'Link').toUpperCase()"></span>
+                    </span>
+                  </a>
+                </template>
+              </div>
+            </div>
+          </template>
+        </div>
+
+        <template x-if="currentItem.changelog && currentItem.changelog.length">
+          <div class="panel">
+            <h3 style="margin-bottom: 12px;">Änderungshistorie</h3>
+            <template x-for="cl in currentItem.changelog">
+              <div style="padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;">
+                <strong x-text="cl.date"></strong> — <span style="color:var(--text-muted)" x-text="cl.note"></span>
+              </div>
+            </template>
+          </div>
+        </template>
+      </div>
+    </template>
+
+  </main>
+
+  <!-- ===================== AUTH MODAL ===================== -->
+  <template x-if="showAuthModal">
+    <div class="modal-backdrop" @click.self="showAuthModal = false">
+      <div class="modal modal-sm">
+        <div class="modal-header">
+          <h2>Bearbeitung freischalten</h2>
+          <button class="modal-close" @click="showAuthModal = false">✕</button>
+        </div>
+        <div class="modal-body">
+          <p style="color: var(--text-muted); font-size: 14px;">Bitte das Praxis-Passwort eingeben, um Einträge anzulegen, zu bearbeiten oder zu löschen.</p>
+          <div class="form-row">
+            <label>Passwort</label>
+            <input type="password" x-model="authInput" @keyup.enter="tryAuth()" placeholder="••••••••••" autofocus />
+            <template x-if="authError"><div style="color: var(--danger); font-size: 12.5px; margin-top: 4px;">Falsches Passwort.</div></template>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" @click="showAuthModal = false">Abbrechen</button>
+          <button class="btn btn-primary" @click="tryAuth()">Freischalten</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- ===================== ITEM EDITOR MODAL ===================== -->
+  <template x-if="showItemModal">
+    <div class="modal-backdrop" @click.self="closeItemModal()">
+      <div class="modal modal-lg">
+        <div class="modal-header">
+          <h2 x-text="(editingItem.id ? 'Eintrag bearbeiten' : 'Neuer Eintrag') + ' · ' + currentSection.title"></h2>
+          <button class="modal-close" @click="closeItemModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <!-- FAQ form -->
+          <template x-if="view==='faq'">
+            <div>
+              <div class="form-row">
+                <label>Frage</label>
+                <input type="text" x-model="editingItem.question" placeholder="z. B. Wie lege ich einen neuen Patienten an?" />
+              </div>
+              <div class="form-row">
+                <label>Antwort</label>
+                <textarea x-model="editingItem.answer" rows="6" placeholder="Antwort kann mehrere Absätze enthalten. Leere Zeile = neuer Absatz."></textarea>
+                <div class="form-hint">Tipp: Doppelte Leerzeile trennt Absätze. Links als URL werden automatisch klickbar.</div>
+              </div>
+              <div class="form-row">
+                <label>Kategorie (optional)</label>
+                <input type="text" x-model="editingItem.category" placeholder="z. B. Anmeldung, Abrechnung, IT" />
+              </div>
+            </div>
+          </template>
+
+          <!-- Contact form -->
+          <template x-if="view==='contacts'">
+            <div>
+              <div class="form-row grid-2">
+                <div>
+                  <label>Bezeichnung</label>
+                  <input type="text" x-model="editingItem.title" placeholder="z. B. Sanitätshaus Müller" />
+                </div>
+                <div>
+                  <label>Kategorie</label>
+                  <select x-model="editingItem.category">
+                    <option value="">– bitte wählen –</option>
+                    <option>Sanitätshäuser</option>
+                    <option>Implantatfirmen</option>
+                    <option>IT-Support</option>
+                    <option>Telefon</option>
+                    <option>Labor</option>
+                    <option>Radiologie</option>
+                    <option>Histologie</option>
+                    <option>Apotheke</option>
+                    <option>Techniker</option>
+                    <option>Notfallkontakte</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row grid-2">
+                <div><label>Ansprechpartner</label><input type="text" x-model="editingItem.contactPerson" /></div>
+                <div><label>Vertragsinfos</label><input type="text" x-model="editingItem.contract" /></div>
+              </div>
+              <div class="form-row grid-2">
+                <div><label>Telefon</label><input type="tel" x-model="editingItem.phone" /></div>
+                <div><label>Mobil</label><input type="tel" x-model="editingItem.mobile" /></div>
+              </div>
+              <div class="form-row grid-2">
+                <div><label>E-Mail</label><input type="email" x-model="editingItem.email" /></div>
+                <div><label>Öffnungszeiten</label><input type="text" x-model="editingItem.hours" placeholder="Mo–Fr 8–17 Uhr" /></div>
+              </div>
+              <div class="form-row">
+                <label>Notizen</label>
+                <textarea x-model="editingItem.notes" rows="3"></textarea>
+              </div>
+            </div>
+          </template>
+
+          <!-- Generic form (SOP / QM / Tutorial / Download) -->
+          <template x-if="view==='sops' || view==='qm' || view==='tutorials' || view==='downloads'">
+            <div>
+              <div class="form-row grid-2">
+                <div>
+                  <label>Titel</label>
+                  <input type="text" x-model="editingItem.title" placeholder="z. B. Patientenaufnahme" />
+                </div>
+                <div>
+                  <label>Kategorie</label>
+                  <select x-model="editingItem.category">
+                    <option value="">– bitte wählen –</option>
+                    <template x-for="opt in categoryOptions(view)"><option x-text="opt"></option></template>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <label>Kurzbeschreibung / Untertitel</label>
+                <input type="text" x-model="editingItem.subtitle" />
+              </div>
+              <template x-if="view==='sops'">
+                <div class="form-row grid-2">
+                  <div><label>Ziel</label><input type="text" x-model="editingItem.purpose" /></div>
+                  <div><label>Verantwortlich</label><input type="text" x-model="editingItem.responsible" /></div>
+                </div>
+              </template>
+              <div class="form-row grid-2">
+                <div><label>Version</label><input type="text" x-model="editingItem.version" placeholder="1.0" /></div>
+                <div><label>Stand (Datum)</label><input type="date" x-model="editingItem.updated" /></div>
+              </div>
+              <div class="form-row">
+                <label>Inhalt / Beschreibung</label>
+                <textarea x-model="editingItem.content" rows="6" placeholder="Beschreibung, Anleitung, Hinweise. Doppelte Leerzeile = neuer Absatz."></textarea>
+              </div>
+              <template x-if="view==='sops'">
+                <div class="form-row">
+                  <label>Schritt-für-Schritt-Ablauf (je Zeile ein Schritt)</label>
+                  <textarea x-model="stepsText" rows="6" placeholder="1. Patient begrüßen
+2. Versichertenkarte einlesen
+3. ..."></textarea>
+                </div>
+              </template>
+              <div class="form-row">
+                <label>Anhänge (eine Zeile pro Anhang: Name | URL | Typ)</label>
+                <textarea x-model="attachmentsText" rows="4" placeholder="OP-Checkliste.pdf | https://drive.google.com/... | pdf
+Hygieneplan-Video | https://youtu.be/... | video"></textarea>
+                <div class="form-hint">Typen: pdf, doc, image, video, link. URLs können auf Google Drive, GitHub, YouTube etc. verweisen.</div>
+              </div>
+            </div>
+          </template>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" @click="closeItemModal()">Abbrechen</button>
+          <button class="btn btn-primary" @click="saveItem()">Speichern</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- ===================== NEWS EDITOR MODAL ===================== -->
+  <template x-if="showNewsModal">
+    <div class="modal-backdrop" @click.self="showNewsModal = false">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 x-text="editingNews.id ? 'Hinweis bearbeiten' : 'Neuer Hinweis'"></h2>
+          <button class="modal-close" @click="showNewsModal = false">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row grid-2">
+            <div>
+              <label>Typ</label>
+              <select x-model="editingNews.type">
+                <option value="info">Info</option>
+                <option value="urgent">Dringend</option>
+                <option value="note">Hinweis</option>
+              </select>
+            </div>
+            <div>
+              <label>Datum</label>
+              <input type="date" x-model="editingNews.date" />
+            </div>
+          </div>
+          <div class="form-row">
+            <label>Titel</label>
+            <input type="text" x-model="editingNews.title" />
+          </div>
+          <div class="form-row">
+            <label>Text</label>
+            <textarea x-model="editingNews.body" rows="4"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" @click="showNewsModal = false">Abbrechen</button>
+          <button class="btn btn-primary" @click="saveNews()">Speichern</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+</div>
+
+<script>
+// =================== APP DATA & LOGIC ===================
+function ocWiki() {
+  const ICONS = {
+    sops: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
+    qm:   '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+    contacts: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+    tutorials: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>',
+    faq: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>',
+    downloads: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>'
+  };
+
+  const SECTIONS = [
+    { key:'sops', title:'SOPs', label:'Standard Operating Procedures', subtitle:'Standardisierte Praxis-Abläufe — Anmeldung, OP, Hygiene, Sterilisation, Röntgen, Abrechnung, Datenschutz, Notfall.', icon: ICONS.sops,
+      categories:['Anmeldung','OP-Ablauf','Hygiene','Sterilisation','Röntgen','Abrechnung','Datenschutz','Notfallmanagement'] },
+    { key:'qm', title:'Qualitätsmanagement', label:'QM & Compliance', subtitle:'QM-Handbuch, Hygieneplan, Checklisten, Audit-Protokolle, Gerätewartung, Schulungen, Zertifikate.', icon: ICONS.qm,
+      categories:['QM-Handbuch','Hygieneplan','Checklisten','Audit-Protokolle','Gerätewartung','Schulungen','Zertifikate'] },
+    { key:'contacts', title:'Kontakte', label:'Lieferanten & Partner', subtitle:'Sanitätshäuser, Implantatfirmen, IT, Labore, Techniker und Notfallkontakte.', icon: ICONS.contacts,
+      categories:['Sanitätshäuser','Implantatfirmen','IT-Support','Telefon','Labor','Radiologie','Histologie','Apotheke','Techniker','Notfallkontakte'] },
+    { key:'tutorials', title:'Tutorials', label:'Know-how & Praxis-Software', subtitle:'Anleitungen, Screenshots und Videos zur täglichen Arbeit mit der Praxis-Software.', icon: ICONS.tutorials,
+      categories:['Anmeldung','Patientenaufnahme','OP-Planung','Abrechnung','Dokumentation','EBM/GOÄ','Backup','Troubleshooting'] },
+    { key:'faq', title:'FAQ', label:'Häufig gestellte Fragen', subtitle:'Schnelle Antworten zu den häufigsten Praxis-Fragen.', icon: ICONS.faq, categories:[] },
+    { key:'downloads', title:'Downloads', label:'Formulare & Vorlagen', subtitle:'Patientenformulare, Aufklärung, interne Vorlagen, Verträge, OP-Informationen.', icon: ICONS.downloads,
+      categories:['Formulare','Patientenaufklärung','Vorlagen','Verträge','OP Patienten Informationen'] },
+  ];
+
+  const STORAGE_KEY = 'oc_wiki_v1';
+  const PASSWORD = 'OCLuMu2026';
+
+  // Initial seed data (Beispieleinträge — können gelöscht/ergänzt werden)
+  const SEED = {
+    news: [
+      { id: 'n1', type: 'urgent', date: '2026-05-09', title: 'Pfingsten 2026 — Veränderte Öffnungszeiten',
+        body: 'Mo 25.05. & Do 04.06.: beide Standorte geschlossen (Feiertag). Detaillierte Übersicht im QM-Bereich. Notfälle: 116 117.' },
+      { id: 'n2', type: 'info', date: '2026-05-05', title: 'Neue Hygiene-SOP v2.1 freigegeben',
+        body: 'Die überarbeitete Hygiene-SOP ist ab sofort verbindlich. Bitte das Team-Briefing im Tutorials-Bereich ansehen.' },
+      { id: 'n3', type: 'note', date: '2026-04-28', title: 'IT-Wartung jeden Freitag 18–19 Uhr',
+        body: 'Während des Wartungsfensters kann es zu Unterbrechungen kommen. Bitte vorher synchronisieren.' }
+    ],
+    sops: [
+      { id: 's1', title: 'Patientenaufnahme', category: 'Anmeldung',
+        subtitle: 'Standardablauf bei neuen und bestehenden Patienten',
+        purpose: 'Vollständige & korrekte Datenerfassung sicherstellen',
+        responsible: 'Empfangsteam',
+        version: '1.3', updated: '2026-03-12',
+        content: 'Dieser Ablauf gilt für alle Patientenaufnahmen an beiden Standorten (LU / MU). Bei Unklarheiten Rücksprache mit der MFA-Leitung.',
+        steps: [
+          'Patient freundlich begrüßen, ggf. nach Termin/Überweisung fragen',
+          'Versichertenkarte einlesen — Gültigkeit und Adresse prüfen',
+          'Neu-Patient: Anamnesebogen + Datenschutzformular ausgeben',
+          'Bei BG-Fall: D-Arzt-Formular und Unfallhergang dokumentieren',
+          'Patient in das passende Wartezimmer einweisen',
+          'Bei OP-Vorbereitung: Aufklärungsbogen kontrollieren'
+        ],
+        attachments: [
+          { name: 'Anamnesebogen.pdf', url: '#', type: 'pdf' },
+          { name: 'Datenschutzformular.pdf', url: '#', type: 'pdf' }
+        ]
+      },
+      { id: 's2', title: 'OP-Vorbereitung ambulant', category: 'OP-Ablauf',
+        subtitle: 'Checkliste vor ambulanten Eingriffen in der Apollonia Kurpfalzklinik',
+        purpose: 'Sicherheit & Vollständigkeit vor Eingriffsbeginn',
+        responsible: 'OP-MFA & operierender Arzt',
+        version: '2.0', updated: '2026-05-01',
+        content: 'Gilt für alle ambulanten Eingriffe in Kooperation mit der Apollonia Kurpfalzklinik.',
+        steps: [
+          'Aufklärungsbogen unterschrieben — Datum prüfen',
+          'Nüchternheit bestätigen (mind. 6 h)',
+          'Allergien & Vormedikation erfassen',
+          'OP-Seite markieren (Time-out-Verfahren)',
+          'Antibiotikaprophylaxe gemäß SOP',
+          'Postoperative Mitgabe: Rezept, Folgetermin, Notfallnummer'
+        ],
+        attachments: [
+          { name: 'OP-Checkliste.pdf', url: '#', type: 'pdf' }
+        ]
+      },
+      { id: 's3', title: 'Hygieneplan Behandlungsraum', category: 'Hygiene',
+        subtitle: 'Tägliche, wöchentliche und Sonderreinigung',
+        purpose: 'Infektionsprävention & RKI-Konformität',
+        responsible: 'Hygienebeauftragte (Fr. Müller)',
+        version: '2.1', updated: '2026-05-05',
+        content: 'Aktualisierte Version ersetzt Hygieneplan v2.0. Wichtigste Änderung: erweiterte Flächendesinfektion in Eingriffsräumen.',
+        steps: [
+          'Nach jedem Patient: Liege & Kontaktflächen wischdesinfizieren',
+          'Täglich abends: Boden, Waschbecken, Türgriffe',
+          'Wöchentlich: Lampen, Schränke außen, Lüftungsgitter',
+          'Bei sichtbarer Kontamination: sofort Schlussdesinfektion'
+        ],
+        attachments: []
+      }
+    ],
+    qm: [
+      { id: 'q1', title: 'QM-Handbuch 2026', category: 'QM-Handbuch',
+        subtitle: 'Vollständiges Handbuch nach G-BA-Richtlinie',
+        version: '5.0', updated: '2026-01-15',
+        content: 'Das QM-Handbuch ist die zentrale Referenz für alle qualitätsrelevanten Prozesse der Praxis.',
+        attachments: [{ name: 'QM-Handbuch-2026.pdf', url: '#', type: 'pdf' }]
+      },
+      { id: 'q2', title: 'Hygieneplan Gesamt', category: 'Hygieneplan',
+        subtitle: 'Übergeordneter Hygieneplan beider Standorte',
+        version: '2.1', updated: '2026-05-05',
+        content: 'Übergreifender Plan, ergänzt durch raumbezogene SOPs.',
+        attachments: []
+      }
+    ],
+    contacts: [
+      { id: 'c1', title: 'Sanitätshaus Becker', category: 'Sanitätshäuser',
+        contactPerson: 'Hr. Becker',
+        phone: '0621 1234567', mobile: '0171 1234567',
+        email: 'kontakt@sani-becker.de',
+        hours: 'Mo–Fr 9–18 Uhr, Sa 9–13 Uhr',
+        contract: 'Rahmenvertrag bis 12/2026',
+        notes: 'Lieferung von Orthesen, Bandagen, Einlagen. Eilversorgung innerhalb 24h möglich.'
+      },
+      { id: 'c2', title: 'IT-Support — Praxis-EDV', category: 'IT-Support',
+        contactPerson: 'Hr. Schmidt (Hauptansprechpartner)',
+        phone: '0621 9876543',
+        email: 'support@praxis-edv.de',
+        hours: 'Mo–Fr 8–18 Uhr',
+        notes: 'Bei Ausfall PraxisSoftware: zuerst Schmidt anrufen. Wartungsfenster Fr 18–19 Uhr.'
+      },
+      { id: 'c3', title: 'Notfall — Bereitschaftsdienst', category: 'Notfallkontakte',
+        phone: '116 117',
+        notes: 'Bundesweite Notrufnummer ärztlicher Bereitschaftsdienst (außerhalb der Sprechzeiten).'
+      }
+    ],
+    tutorials: [
+      { id: 't1', title: 'Neuen Patienten anlegen (PraxisSoftware)', category: 'Patientenaufnahme',
+        subtitle: 'Schritt-für-Schritt mit Screenshots',
+        version: '1.0', updated: '2026-02-20',
+        content: 'Diese Anleitung beschreibt das Anlegen eines neuen Patienten in der Praxisverwaltungssoftware.\n\nWichtig: Versichertenkarte immer zuerst einlesen, bevor manuell ergänzt wird.',
+        attachments: [{ name: 'Video: Patient anlegen', url: '#', type: 'video' }]
+      }
+    ],
+    faq: [
+      { id: 'f1', question: 'Wie lege ich einen neuen Patienten an?',
+        answer: '1. PraxisSoftware öffnen.\n2. Versichertenkarte einlesen — die Stammdaten werden automatisch übernommen.\n3. Ergänzende Angaben (Telefon, E-Mail, Notfallkontakt) eintragen.\n4. Speichern und ggf. einen Termin zuweisen.\n\nDetaillierte Anleitung: Tutorials → "Neuen Patienten anlegen".',
+        category: 'Anmeldung'
+      },
+      { id: 'f2', question: 'Welche EBM-Ziffern werden bei einer Erstvorstellung abgerechnet?',
+        answer: 'Bei orthopädischer/chirurgischer Erstvorstellung typischerweise:\n\n- 18210 (Grundpauschale Chirurgie/Orthopädie)\n- 03000 / 04000 falls hausärztlich\n- Zusätzliche Leistungen je nach Diagnostik (z. B. 33050 Sono, 34230 Röntgen)\n\nIm Zweifel: Abrechnungs-SOP konsultieren oder Rücksprache mit der Abrechnungsleitung.',
+        category: 'Abrechnung'
+      },
+      { id: 'f3', question: 'Was tun bei IT-Problemen?',
+        answer: '1. Software-Neustart versuchen.\n2. PC neu starten.\n3. Wenn das nicht hilft: IT-Support Hr. Schmidt anrufen (0621 9876543).\n4. Bei Komplettausfall: Notfall-Workflow mit Papierdokumentation aktivieren.',
+        category: 'IT'
+      },
+      { id: 'f4', question: 'Wie drucke ich die Patientenakte aus?',
+        answer: 'Patient öffnen → Reiter "Akte" → Button "Drucken" oben rechts.\n\nVorher Datenschutz prüfen: Ausdruck nur auf ausdrücklichen Patientenwunsch oder bei berechtigtem Bedarf (z. B. Weiterüberweisung).',
+        category: 'Anmeldung'
+      },
+      { id: 'f5', question: 'Was tun bei OP-Vorbereitung?',
+        answer: 'Siehe SOP "OP-Vorbereitung ambulant". Wichtigste Punkte:\n\n- Aufklärungsbogen + Unterschrift prüfen\n- Nüchternheit bestätigen\n- Allergien & Medikation\n- OP-Seite markieren\n- Time-out durchführen',
+        category: 'OP-Ablauf'
+      }
+    ],
+    downloads: [
+      { id: 'd1', title: 'Patientenaufklärung Arthroskopie Knie', category: 'Patientenaufklärung',
+        subtitle: 'Aufklärungsbogen vor arthroskopischen Eingriffen',
+        version: '1.2', updated: '2026-01-10',
+        content: 'Standardisierter Aufklärungsbogen — vor jedem arthroskopischen Eingriff am Knie auszuhändigen.',
+        attachments: [{ name: 'Aufklärung-Arthroskopie-Knie.pdf', url: '#', type: 'pdf' }]
+      },
+      { id: 'd2', title: 'Anamnesebogen Standard', category: 'Formulare',
+        subtitle: 'Allgemeiner Anamnesebogen',
+        version: '2.0', updated: '2026-03-01',
+        attachments: [{ name: 'Anamnesebogen.pdf', url: '#', type: 'pdf' }]
+      }
+    ]
+  };
+
+  function loadData() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch(e) { console.warn('Konnte gespeicherte Daten nicht laden', e); }
+    return JSON.parse(JSON.stringify(SEED));
+  }
+
+  return {
+    sections: SECTIONS,
+    view: 'dashboard',
+    data: loadData(),
+    selectedItemId: null,
+    searchQuery: '',
+    searchResults: [],
+
+    // News-spezifisch (auf data.news gespiegelt für einfacheres Markup)
+    get news() { return this.data.news || []; },
+
+    isAuth: false,
+    showAuthModal: false,
+    authInput: '',
+    authError: false,
+
+    showItemModal: false,
+    editingItem: {},
+    stepsText: '',
+    attachmentsText: '',
+
+    showNewsModal: false,
+    editingNews: {},
+
+    openFaq: null,
+
+    init() {
+      this.persist();
+      // restore session unlock (only for tab session, not persistent)
+      this.isAuth = sessionStorage.getItem('oc_auth') === '1';
+    },
+
+    get lastChanged() {
+      try {
+        const stamp = localStorage.getItem(STORAGE_KEY + '_ts');
+        if (!stamp) return new Date().toLocaleString('de-DE');
+        return new Date(stamp).toLocaleString('de-DE');
+      } catch(e) { return '—'; }
+    },
+
+    get currentSection() {
+      return this.sections.find(s => s.key === this.view) || { title: '', subtitle: '', label: '', categories: [] };
+    },
+
+    get currentItem() {
+      if (!this.selectedItemId) return null;
+      const list = this.data[this.view] || [];
+      return list.find(i => i.id === this.selectedItemId);
+    },
+
+    get categoryGroups() {
+      const list = this.data[this.view] || [];
+      const cats = this.currentSection.categories || [];
+      const groups = [];
+      const used = new Set();
+      cats.forEach(cat => {
+        const items = list.filter(i => i.category === cat);
+        if (items.length) { groups.push({ name: cat, items }); items.forEach(i => used.add(i.id)); }
+      });
+      const others = list.filter(i => !used.has(i.id));
+      if (others.length) groups.push({ name: 'Weitere', items: others });
+      return groups;
+    },
+
+    sectionTitle(key) {
+      const s = this.sections.find(x => x.key === key);
+      return s ? s.title : key;
+    },
+
+    categoryOptions(view) {
+      const s = this.sections.find(x => x.key === view);
+      return s ? s.categories : [];
+    },
+
+    newsTypeLabel(t) {
+      return { info: 'Info', urgent: 'Dringend', note: 'Hinweis' }[t] || t;
+    },
+
+    navigate(section) {
+      this.view = section;
+      this.selectedItemId = null;
+      this.searchQuery = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+
+    selectItem(section, id) {
+      this.view = section;
+      this.selectedItemId = id;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+
+    hasMeta(it) {
+      return !!(it.purpose || it.responsible || it.version || it.updated || it.category);
+    },
+
+    fileIcon(type) {
+      const t = (type||'').toLowerCase();
+      const stroke = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
+      if (t==='pdf' || t==='doc') return stroke + '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+      if (t==='image') return stroke + '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>';
+      if (t==='video') return stroke + '<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>';
+      return stroke + '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
+    },
+
+    renderText(txt) {
+      if (!txt) return '';
+      // Escape HTML
+      let safe = txt
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      // Auto-link URLs
+      safe = safe.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+      // Paragraphs from double newlines
+      const paras = safe.split(/\n{2,}/).map(p => '<p>' + p.replace(/\n/g, '<br/>') + '</p>');
+      return paras.join('');
+    },
+
+    // -------- AUTH --------
+    tryAuth() {
+      if (this.authInput === PASSWORD) {
+        this.isAuth = true;
+        this.showAuthModal = false;
+        this.authInput = '';
+        this.authError = false;
+        sessionStorage.setItem('oc_auth', '1');
+      } else {
+        this.authError = true;
+      }
+    },
+
+    lock() {
+      this.isAuth = false;
+      sessionStorage.removeItem('oc_auth');
+    },
+
+    // -------- ITEM CRUD --------
+    openItemEditor(item) {
+      if (!this.isAuth) { this.showAuthModal = true; return; }
+      if (item) {
+        this.editingItem = JSON.parse(JSON.stringify(item));
+        this.stepsText = (item.steps || []).join('\n');
+        this.attachmentsText = (item.attachments || []).map(a => `${a.name} | ${a.url} | ${a.type||'link'}`).join('\n');
+      } else {
+        this.editingItem = { id: '', title: '', category: '', subtitle: '', content: '', version: '1.0', updated: new Date().toISOString().slice(0,10) };
+        this.stepsText = '';
+        this.attachmentsText = '';
+      }
+      this.showItemModal = true;
+    },
+
+    closeItemModal() {
+      this.showItemModal = false;
+      this.editingItem = {};
+      this.stepsText = '';
+      this.attachmentsText = '';
+    },
+
+    saveItem() {
+      const v = this.view;
+      const isNew = !this.editingItem.id;
+      const it = { ...this.editingItem };
+      if (isNew) it.id = v.charAt(0) + Date.now().toString(36);
+
+      // Parse steps & attachments for relevant sections
+      if (this.stepsText) {
+        it.steps = this.stepsText.split('\n').map(s => s.trim()).filter(Boolean);
+      }
+      if (this.attachmentsText) {
+        it.attachments = this.attachmentsText.split('\n').map(line => {
+          const parts = line.split('|').map(p => p.trim()).filter(Boolean);
+          if (parts.length < 2) return null;
+          return { name: parts[0], url: parts[1], type: (parts[2]||'link').toLowerCase() };
+        }).filter(Boolean);
+      }
+
+      // Changelog
+      it.changelog = it.changelog || [];
+      it.changelog.unshift({ date: new Date().toISOString().slice(0,10), note: isNew ? 'Erstellt' : 'Bearbeitet' });
+      if (it.changelog.length > 20) it.changelog = it.changelog.slice(0, 20);
+
+      this.data[v] = this.data[v] || [];
+      if (isNew) {
+        this.data[v].push(it);
+      } else {
+        const idx = this.data[v].findIndex(x => x.id === it.id);
+        if (idx > -1) this.data[v][idx] = it;
+      }
+      this.persist();
+      this.closeItemModal();
+      if (isNew && v !== 'faq' && v !== 'contacts') this.selectedItemId = it.id;
+    },
+
+    deleteItem(section, id) {
+      if (!this.isAuth) { this.showAuthModal = true; return; }
+      if (!confirm('Eintrag wirklich löschen? Dies kann nicht rückgängig gemacht werden.')) return;
+      this.data[section] = (this.data[section] || []).filter(i => i.id !== id);
+      if (this.selectedItemId === id) this.selectedItemId = null;
+      this.persist();
+    },
+
+    // -------- NEWS CRUD --------
+    openNewsEditor(n) {
+      if (!this.isAuth) { this.showAuthModal = true; return; }
+      this.editingNews = n ? { ...n } : { id: '', type: 'info', date: new Date().toISOString().slice(0,10), title: '', body: '' };
+      this.showNewsModal = true;
+    },
+
+    saveNews() {
+      const isNew = !this.editingNews.id;
+      if (isNew) this.editingNews.id = 'n' + Date.now().toString(36);
+      this.data.news = this.data.news || [];
+      if (isNew) {
+        this.data.news.unshift({ ...this.editingNews });
+      } else {
+        const idx = this.data.news.findIndex(x => x.id === this.editingNews.id);
+        if (idx > -1) this.data.news[idx] = { ...this.editingNews };
+      }
+      this.persist();
+      this.showNewsModal = false;
+    },
+
+    deleteNews(id) {
+      if (!this.isAuth) { this.showAuthModal = true; return; }
+      if (!confirm('Hinweis löschen?')) return;
+      this.data.news = (this.data.news || []).filter(n => n.id !== id);
+      this.persist();
+    },
+
+    // -------- PERSIST --------
+    persist() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(this.data));
+        localStorage.setItem(STORAGE_KEY + '_ts', new Date().toISOString());
+      } catch(e) { alert('Speichern fehlgeschlagen: ' + e.message); }
+    },
+
+    // -------- EXPORT / IMPORT --------
+    exportData() {
+      const blob = new Blob([JSON.stringify(this.data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `oc-praxis-wiki-backup-${new Date().toISOString().slice(0,10)}.json`;
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    },
+
+    importData(ev) {
+      if (!this.isAuth) {
+        alert('Import nur im Bearbeitungsmodus möglich. Bitte zuerst freischalten.');
+        this.showAuthModal = true;
+        ev.target.value = '';
+        return;
+      }
+      const file = ev.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const obj = JSON.parse(e.target.result);
+          if (!confirm('Aktuelle Daten werden durch den Import ersetzt. Fortfahren?')) return;
+          this.data = obj;
+          this.persist();
+          alert('Import erfolgreich.');
+        } catch(err) {
+          alert('Fehler beim Import: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+      ev.target.value = '';
+    },
+
+    // -------- SEARCH --------
+    onSearch() {
+      const q = this.searchQuery.trim().toLowerCase();
+      if (q.length < 2) { this.searchResults = []; return; }
+      const results = [];
+      const fields = ['title','subtitle','content','purpose','responsible','category','question','answer','contactPerson','notes','email'];
+      ['sops','qm','contacts','tutorials','faq','downloads'].forEach(sec => {
+        (this.data[sec] || []).forEach(it => {
+          let blob = '';
+          fields.forEach(f => { if (it[f]) blob += ' ' + String(it[f]); });
+          if ((it.steps||[]).length) blob += ' ' + it.steps.join(' ');
+          blob = blob.toLowerCase();
+          if (blob.includes(q)) {
+            const title = it.title || it.question || '(ohne Titel)';
+            const previewSrc = it.subtitle || it.answer || it.content || it.purpose || it.notes || '';
+            const preview = previewSrc.length > 120 ? previewSrc.slice(0, 120) + '…' : previewSrc;
+            results.push({ section: sec, id: it.id, title, preview });
+          }
+        });
+      });
+      this.searchResults = results;
+    }
+  };
+}
+</script>
+</body>
+</html>
